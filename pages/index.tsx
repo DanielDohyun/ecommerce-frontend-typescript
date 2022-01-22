@@ -1,9 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
-import products from "../products.json";
+import projects from "../projects.json";
+import { fromImgToUrl } from "../utils/urls";
+import Link from "next/link";
 
 export default function Home() {
-  console.log(products.data);
+  console.log(projects.data);
   return (
     <div>
       <Head>
@@ -12,16 +14,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {products.data.map((product) => (
+      {projects.data.map((product) => (
         <div key={product.id} className="p-[24px] text-[24px] ">
-          <div className="flex">
-            <div className="flex-1 max-w-[50px] mr-[25px]">
-              <img src="" />
-            </div>
-            <div className="flex-1">
-              {product.attributes.name} {product.attributes.price}
-            </div>
-          </div>
+          <Link href={`/projects/${product.attributes.slug}`}>
+            <a>
+              <div className="flex">
+                <div className="flex-1 max-w-[50px] mr-[25px]">
+                  <img
+                    src={fromImgToUrl(product.attributes.image.data.attributes)}
+                    className="max-w-[100%]"
+                  />
+                </div>
+                <div className="flex-1">
+                  {product.attributes.name} {product.attributes.price}
+                </div>
+              </div>
+            </a>
+          </Link>
         </div>
       ))}
     </div>
